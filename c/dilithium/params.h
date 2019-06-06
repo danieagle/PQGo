@@ -1,7 +1,7 @@
 #pragma once
 
 #ifndef MODE
-#define MODE 2
+#define MODE 3
 #endif
 
 #define SEEDBYTES 32U
