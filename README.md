@@ -1,4 +1,5 @@
-# PQGo
+# PQGod (Danieagle only dilithium version. (mode 3))
+(forked from github.com/Teserakt-io/PQGo (Really Many Thanks to Teserakt-io :-))
 
 **WARNING: Experimental code, don't use in production or for anything that matters.**
 
@@ -8,23 +9,9 @@ Currently PQGo includes the following primitives
 
 * [Dilithium](https://pq-crystals.org/dilithium/index.shtml) (signature)
     * Version III (NIST level 2)
-    * Public key: 1472 bytes
-    * Secret key: 3504 bytes
-    * Signature: 2701 bytes
-
-* [Kyber](https://pq-crystals.org/kyber/index.shtml) (KEM)
-    * Version: Kyber768 (161/178 pq/classical security)
-    * Public key: 1088 bytes
-    * Secret key: 2400 bytes
-    * Ciphertext: 1152 bytes
-    * Shared secret: 32 bytes
-
-* [Round5](https://round5.org/) (KEM)
-    * Version: 3KEMb (182/192 pq/classical security)
-    * Public key: 780 bytes
-    * Secret key: 24 bytes
-    * Ciphertext: 830
-    * Shared secret: 24 bytes
+    * Public key: 1760 bytes
+    * Secret key: 3856 bytes
+    * Signature: aprox. 5403 bytes
 
 **Disclaimer**: The choice of these primitives should not be interpreted as an endorsement or recommendation. We are not liable for any damage etc. etc. We made some tweaks to the original C code, so if something is wrong there it may be our fault, not that of the original implementers.
 
@@ -34,7 +21,7 @@ Currently PQGo includes the following primitives
 To download the package to your local Go installation, run
 
 ```
-go get -u -v github.com/Teserakt-io/PQGo/...
+go get -u -v github.com/danieagle/PQGo/...
 ```
 
 Note that PQGo uses Go's recently introduced
@@ -43,7 +30,7 @@ Note that PQGo uses Go's recently introduced
 package:
 
 ```
-import "github.com/Teserakt-io/PQGo"
+import "github.com/danieagle/PQGo"
 ```
 
 (Warning: Go modules seem to be case sensitive.)
@@ -51,13 +38,13 @@ import "github.com/Teserakt-io/PQGo"
 Go will then download the module of the latest master version, e.g. by
 doing `go get -u ./...`.
 
-Benchmarks can be run with [`justbench.sh`](justbench.sh). 
+Benchmarks can be run with [`justbench.sh`](justbench.sh).
 Note however that the underlying C code is the *reference* implementation, which may be considerably slower than optimized implementations.
 
 Calling the algorithm from another package requires to import the package, instantiate a primitive, and call its methods. For example, to generate a Dilithium key pair:
 
 ```
-import "github.com/Teserakt-io/PQGo"
+import "github.com/danieagle/PQGo"
 
 (...)
 
@@ -69,14 +56,6 @@ pk, sk, err := d.KeyGenRandom()
 Usage is generally straightforward, based on the examples in [pqgo_test.go](pqgo_test.go).
 PQGo uses the following interfaces, for KEM and signature primitives:
 ```
-type KEM interface {
-	KeyGen(ent []byte) ([]byte, []byte, error)
-	KeyGenRandom() ([]byte, []byte, error)
-	Encap(ent, pk []byte) ([]byte, []byte, error)
-	EncapRandom(pk []byte) ([]byte, []byte, error)
-	Decap(ct, sk []byte) ([]byte, error)
-}
-
 type Signature interface {
 	KeyGen(ent []byte) ([]byte, []byte, error)
 	KeyGenRandom() ([]byte, []byte, error)
@@ -98,7 +77,6 @@ If you add a new primitive, make sure to add corresponding unit tests as well as
 The copyright of the C implementations belongs to their respective authors:
 
 * [Dilithium](https://github.com/pq-crystals/dilithium/blob/master/AUTHORS.md) ("public domain" licensing)
-* [Kyber](https://github.com/pq-crystals/kyber/blob/master/AUTHORS) ("public domain" licensing)
-* [Round5](https://github.com/mjosaarinen/r5nd_tiny/blob/master/LICENSE) (restrictive license)
 
 The Go code is copyright (c) Teserakt AG, 2018, and hereby released under GPLv2.
+The Go code fork is copyleft (c) Danieagle, 2019.
